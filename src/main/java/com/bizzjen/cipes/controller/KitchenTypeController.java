@@ -2,7 +2,9 @@ package com.bizzjen.cipes.controller;
 
 import com.bizzjen.cipes.dto.KitchenTypeRequestDto;
 import com.bizzjen.cipes.dto.KitchenTypeResponseDto;
+import com.bizzjen.cipes.response.ResponseDetail;
 import com.bizzjen.cipes.response.ResponseHandler;
+import com.bizzjen.cipes.response.ResponseMessage;
 import com.bizzjen.cipes.service.KitchenTypeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -19,14 +21,14 @@ public class KitchenTypeController {
     }
 
     @GetMapping("/type/{id}")
-    public ResponseEntity<Object> getKitchenTypeById(@PathVariable long id) {
+    public ResponseEntity<ResponseDetail> getKitchenTypeById(@PathVariable long id) {
         KitchenTypeResponseDto kitchenTypeResponseDto = this.kitchenTypeService.getKitchenTypeById(id);
-        return ResponseHandler.responseBuilder("Successful", HttpStatus.OK, kitchenTypeResponseDto);
+        return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.name(), HttpStatus.OK, kitchenTypeResponseDto);
     }
 
     @PostMapping("/type")
-    public ResponseEntity<KitchenTypeResponseDto> createKitchenType(@RequestBody @Valid KitchenTypeRequestDto kitchenTypeRequestDto) {
+    public ResponseEntity<ResponseDetail> createKitchenType(@RequestBody @Valid KitchenTypeRequestDto kitchenTypeRequestDto) {
         KitchenTypeResponseDto kitchenTypeResponseDto = this.kitchenTypeService.createKitchenType(kitchenTypeRequestDto);
-        return ResponseEntity.ok(kitchenTypeResponseDto);
+        return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.name(), HttpStatus.OK, kitchenTypeResponseDto);
     }
 }

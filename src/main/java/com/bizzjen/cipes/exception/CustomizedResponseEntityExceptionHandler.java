@@ -11,12 +11,12 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     @ExceptionHandler(value = {CipesClassNotFoundException.class})
     public ResponseEntity<Object> handleClassNotFoundException
             (CipesClassNotFoundException classNotFoundException) {
-        ErrorDetails errorDetails = new ErrorDetails(
+        ErrorDetail errorDetail = new ErrorDetail(
                 classNotFoundException.getMessage(),
                 classNotFoundException.getCause(),
                 HttpStatus.NOT_FOUND
         );
-        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND);
     }
 
 //    @Override

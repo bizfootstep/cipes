@@ -1,4 +1,4 @@
-package com.bizzjen.cipes.exception;
+package com.bizzjen.cipes.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,10 +6,8 @@ import org.springframework.http.HttpStatus;
 
 @Data
 @AllArgsConstructor
-public class ErrorDetails {
+public class ResponseDetail {
     private String message;
-    private Throwable throwable;
     private HttpStatus httpStatus;
-
-    // timestamp, message, details
+    private Object data;
 }
