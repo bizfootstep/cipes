@@ -25,6 +25,7 @@ public class KitchenTypeService {
 
     public KitchenTypeResponseDto createKitchenType(KitchenTypeRequestDto kitchenTypeRequestDto) {
         KitchenType kitchenType = this.modelMapper.map(kitchenTypeRequestDto, KitchenType.class);
+        this.kitchenTypeRepository.save(kitchenType);
         return this.modelMapper.map(this.kitchenTypeRepository.save(kitchenType), KitchenTypeResponseDto.class);
     }
 

@@ -1,6 +1,6 @@
 package com.bizzjen.cipes.exception;
 
-public class CipesClassNotFoundException extends RuntimeException{
+public class CipesClassNotFoundException extends RuntimeException {
     public CipesClassNotFoundException(String message) {
         super(message);
     }

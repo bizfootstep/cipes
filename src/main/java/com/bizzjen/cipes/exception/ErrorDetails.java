@@ -6,8 +6,10 @@ import org.springframework.http.HttpStatus;
 
 @Data
 @AllArgsConstructor
-public class CipesException {
+public class ErrorDetails {
     private String message;
     private Throwable throwable;
     private HttpStatus httpStatus;
+
+    // timestamp, message, details
 }
