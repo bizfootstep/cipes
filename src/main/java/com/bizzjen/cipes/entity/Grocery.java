@@ -1,16 +1,24 @@
 package com.bizzjen.cipes.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-@Data
+import java.util.Set;
+
 @Entity
+@Table(name = "GROCERY_TBL")
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Grocery {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long groceryId;
     private String groceryName;
-    @ManyToOne
-    @Column(name="category_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
     private GroceryCategory category;
+    @ManyToMany(mappedBy = "groceries", fetch = FetchType.LAZY)
+    private Set<Recipe> recipes;
 }

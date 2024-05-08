@@ -29,7 +29,7 @@ public class KitchenTypeService {
     }
 
     public KitchenTypeResponseDto getKitchenTypeById(long kitchenTypeId) {
-        Optional<KitchenType> kitchenType = kitchenTypeRepository.findById(BigDecimal.valueOf(kitchenTypeId));
+        Optional<KitchenType> kitchenType = kitchenTypeRepository.findById(kitchenTypeId);
         if(kitchenType.isEmpty()){
             throw new CipesClassNotFoundException(ExceptionMessage.NOT_FOUND.name());
         }

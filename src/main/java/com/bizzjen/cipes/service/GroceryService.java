@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -48,10 +50,20 @@ public class GroceryService {
     }
 
     public GroceryResponseDto getGroceryById(long groceryId){
-        Optional<Grocery> grocery = this.groceryRepository.findById(BigDecimal.valueOf(groceryId));
+        Optional<Grocery> grocery = this.groceryRepository.findById(groceryId);
         if(grocery.isEmpty()){
             throw new CipesClassNotFoundException(ExceptionMessage.NOT_FOUND.name());
         }
         return this.mapper.map(grocery.get(), GroceryResponseDto.class);
     }
+
+    public List<GroceryResponseDto> getAllGrocery(){
+        List<Grocery> groceryList = this.groceryRepository.findAll();
+        List<GroceryResponseDto> groceryResponseList = new ArrayList<>();
+        groceryList.forEach(grocery -> {
+            groceryResponseList.add(this.mapper.map(grocery, GroceryResponseDto.class));
+        });
+        return groceryResponseList;
+    }
+
 }

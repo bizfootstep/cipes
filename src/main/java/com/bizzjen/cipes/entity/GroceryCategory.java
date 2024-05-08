@@ -2,6 +2,7 @@ package com.bizzjen.cipes.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
@@ -10,7 +11,7 @@ import lombok.Data;
 public class GroceryCategory {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int categoryId;
 
     private String categoryName;

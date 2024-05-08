@@ -26,7 +26,8 @@ public class KitchenItemService {
     }
 
     public KitchenItemResponseDto getKitchenItemById(long id) {
-        KitchenItem kitchenItem = this.kitchenItemRepository.findById(BigDecimal.valueOf(id)).get();
+        //todo check empty if empty throw error
+        KitchenItem kitchenItem = this.kitchenItemRepository.findById(id).get();
         return this.modelMapper.map(kitchenItem, KitchenItemResponseDto.class);
     }
 }
