@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class GroceryRequestDto {
     private String groceryName;
-//    private int categoryId;
+    private int categoryId;
 }

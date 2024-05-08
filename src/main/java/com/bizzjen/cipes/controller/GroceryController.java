@@ -1,12 +1,12 @@
 package com.bizzjen.cipes.controller;
 
+import com.bizzjen.cipes.dto.GroceryCategoryRequestDto;
 import com.bizzjen.cipes.dto.GroceryRequestDto;
 import com.bizzjen.cipes.dto.GroceryResponseDto;
 import com.bizzjen.cipes.response.ResponseDetail;
 import com.bizzjen.cipes.response.ResponseHandler;
 import com.bizzjen.cipes.response.ResponseMessage;
 import com.bizzjen.cipes.service.GroceryService;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,23 +22,49 @@ public class GroceryController {
     }
 
     @GetMapping("/grocery/{id}")
-    public ResponseEntity<ResponseDetail> getGroceryById(@PathVariable long id){
+    public ResponseEntity<ResponseDetail> getGroceryById(@PathVariable long id) {
         GroceryResponseDto grocery = this.groceryService.getGroceryById(id);
         return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.name(), HttpStatus.OK, grocery);
     }
 
     @GetMapping("/groceries")
-    public ResponseEntity<ResponseDetail> getGroceries(){
+    public ResponseEntity<ResponseDetail> getGroceries() {
         List<GroceryResponseDto> groceryList = this.groceryService.getAllGrocery();
         return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.name(), HttpStatus.OK, groceryList);
     }
 
     @PostMapping("/grocery")
-    public ResponseEntity<ResponseDetail> createGrocery(@RequestBody GroceryRequestDto requestDto){
+    public ResponseEntity<ResponseDetail> createGrocery(@RequestBody GroceryRequestDto requestDto) {
         GroceryResponseDto grocery = this.groceryService.createGrocery(requestDto);
         return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.name(), HttpStatus.OK, grocery);
     }
 
+    @GetMapping("/category/{id}")
+    public ResponseEntity<ResponseDetail> getCategoryById(@PathVariable int id) {
+        return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.name(),
+                HttpStatus.OK, this.groceryService.getGroceryCategoryById(id));
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<ResponseDetail> getCategories() {
+        return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.name(),
+                HttpStatus.OK, this.groceryService.getAllGroceryCategory());
+    }
+
+    @PostMapping("/category")
+    public ResponseEntity<ResponseDetail> createCategory(@RequestBody GroceryCategoryRequestDto categoryRequestDto) {
+        return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.name(),
+                HttpStatus.OK, this.groceryService.createGroceryCategory(categoryRequestDto));
+    }
+
+    @DeleteMapping("/categories")
+    public ResponseEntity<ResponseDetail> deleteAllCategories() {
+        this.groceryService.deleteAllGrocery();
+        return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.getDescription(),
+                HttpStatus.OK,
+                null
+        );
+    }
 
 
 }

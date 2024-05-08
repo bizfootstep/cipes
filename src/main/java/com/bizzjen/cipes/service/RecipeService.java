@@ -9,11 +9,9 @@ import com.bizzjen.cipes.repository.RecipeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class RecipeService {
@@ -27,7 +25,7 @@ public class RecipeService {
         this.modelMapper = modelMapper;
     }
 
-    public RecipeResponseDto createRecipe(RecipeRequestDto requestDto){
+    public RecipeResponseDto createRecipe(RecipeRequestDto requestDto) {
         Recipe recipe = new Recipe();
         recipe.setRecipeType(requestDto.getRecipeType());
         recipe.setSteps(requestDto.getSteps());
@@ -39,11 +37,8 @@ public class RecipeService {
 
     public List<RecipeResponseDto> getRecipes() {
         List<Recipe> recipeList = this.recipeRepository.findAll();
-        List<RecipeResponseDto> recipeResponseDtoList = new ArrayList<>();
-        recipeList.forEach(recipe -> {
-            recipeResponseDtoList.add(this.modelMapper.map(recipe,RecipeResponseDto.class));
-        });
-        return recipeResponseDtoList;
+        return recipeList.stream().map(recipe -> this.modelMapper.map(recipe, RecipeResponseDto.class))
+                .collect(Collectors.toList());
     }
 }
 

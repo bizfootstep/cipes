@@ -7,4 +7,5 @@ import lombok.Data;
 public class GroceryResponseDto {
     private long groceryId;
     private String groceryName;
+    private GroceryCategoryResponseDto category;
 }
