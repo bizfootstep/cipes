@@ -7,6 +7,8 @@ import com.bizzjen.cipes.response.ResponseDetail;
 import com.bizzjen.cipes.response.ResponseHandler;
 import com.bizzjen.cipes.response.ResponseMessage;
 import com.bizzjen.cipes.service.GroceryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,8 @@ import java.util.List;
 
 @RestController
 public class GroceryController {
+
+    private static final Logger logger = LoggerFactory.getLogger(GroceryController.class);
     private final GroceryService groceryService;
 
     public GroceryController(GroceryService groceryService) {
@@ -29,6 +33,7 @@ public class GroceryController {
 
     @GetMapping("/groceries")
     public ResponseEntity<ResponseDetail> getGroceries() {
+        logger.info("Get All of the Groceries information!");
         List<GroceryResponseDto> groceryList = this.groceryService.getAllGrocery();
         return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.name(), HttpStatus.OK, groceryList);
     }
