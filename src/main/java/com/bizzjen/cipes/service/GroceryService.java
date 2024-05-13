@@ -83,4 +83,12 @@ public class GroceryService {
         return groceryCategoryList.stream().map(category -> this.mapper.map(category, GroceryCategoryResponseDto.class))
                 .collect(Collectors.toList());
     }
+
+    public void deleteGroceryById(long id){
+        this.groceryRepository.deleteById(id);
+    }
+
+    public void deleteCategoryById(int id){
+        this.groceryCategoryRepository.deleteById(BigInteger.valueOf(id));
+    }
 }

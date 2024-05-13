@@ -9,10 +9,7 @@ import com.bizzjen.cipes.service.RecipeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,7 +30,13 @@ public class RecipeController {
     @PostMapping("/recipe")
     public ResponseEntity<ResponseDetail> createRecipe(@RequestBody @Valid RecipeRequestDto requestDto){
         RecipeResponseDto recipe = this.recipeService.createRecipe(requestDto);
-        return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.name(), HttpStatus.OK, recipe);
+        return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.getDescription(), HttpStatus.OK, recipe);
+    }
+
+    @DeleteMapping("/recipe/{id}")
+    public ResponseEntity<ResponseDetail> deleteRecipeById(@PathVariable long id){
+        this.recipeService.deleteRecipeById(id);
+        return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.getDescription(), HttpStatus.OK, null);
     }
 
 }

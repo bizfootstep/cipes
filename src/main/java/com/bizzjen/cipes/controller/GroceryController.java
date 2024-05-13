@@ -66,5 +66,16 @@ public class GroceryController {
         );
     }
 
+    @DeleteMapping("/grocery/{id}")
+    public ResponseEntity<ResponseDetail> deleteGroceryById(@PathVariable int id){
+        this.groceryService.deleteGroceryById(id);
+        return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.getDescription(),HttpStatus.OK, null);
+    }
+
+    @DeleteMapping("/category/{id}")
+    public ResponseEntity<ResponseDetail> deleteCategoryById(@PathVariable int id){
+        this.groceryService.deleteCategoryById(id);
+        return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.getDescription(),HttpStatus.OK, null);
+    }
 
 }

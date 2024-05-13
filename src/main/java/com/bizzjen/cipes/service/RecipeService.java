@@ -40,5 +40,9 @@ public class RecipeService {
         return recipeList.stream().map(recipe -> this.modelMapper.map(recipe, RecipeResponseDto.class))
                 .collect(Collectors.toList());
     }
+
+    public void deleteRecipeById(long id){
+        this.recipeRepository.deleteById(id);
+    }
 }
 

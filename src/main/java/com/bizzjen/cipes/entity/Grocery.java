@@ -16,9 +16,9 @@ public class Grocery {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long groceryId;
     private String groceryName;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "category_id")
     private GroceryCategory category;
-    @ManyToMany(mappedBy = "groceries", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "groceries", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<Recipe> recipes;
 }

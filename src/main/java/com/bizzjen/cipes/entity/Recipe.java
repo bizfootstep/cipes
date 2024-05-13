@@ -22,7 +22,7 @@ public class Recipe {
     private String recipeType;
     private String steps;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "RECIPE_GROCERY_TABLE",
             joinColumns = {
                     @JoinColumn(name = "recipe_id", referencedColumnName = "recipeId")
