@@ -22,6 +22,9 @@ public class Recipe {
     private String recipeType;
     private String steps;
 
+    @Column(columnDefinition = "INT DEFAULT 0")
+    private int published;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "RECIPE_GROCERY_TABLE",
             joinColumns = {

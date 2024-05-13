@@ -9,5 +9,6 @@ public class RecipeResponseDto {
     private long recipeId;
     private String recipeType;
     private String steps;
+    private boolean published;
     private Set<GroceryResponseDto> groceries;
 }

@@ -39,4 +39,15 @@ public class RecipeController {
         return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.getDescription(), HttpStatus.OK, null);
     }
 
+    @PutMapping("/recipe/{id}/publish")
+    public ResponseEntity<ResponseDetail> publishRecipeById(@PathVariable long id) {
+        this.recipeService.publishRecipe(id);
+        return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.getDescription(), HttpStatus.OK, null);
+    }
+
+    @GetMapping("/recipes/published")
+    public ResponseEntity<ResponseDetail> getPublishedRecipes() {
+        List<RecipeResponseDto> recipes = this.recipeService.getPublishedRecipeList();
+        return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.name(), HttpStatus.OK, recipes);
+    }
 }

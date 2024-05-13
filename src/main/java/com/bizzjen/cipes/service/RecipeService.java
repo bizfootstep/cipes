@@ -4,8 +4,11 @@ import com.bizzjen.cipes.dto.RecipeRequestDto;
 import com.bizzjen.cipes.dto.RecipeResponseDto;
 import com.bizzjen.cipes.entity.Grocery;
 import com.bizzjen.cipes.entity.Recipe;
+import com.bizzjen.cipes.exception.CipesClassNotFoundException;
 import com.bizzjen.cipes.repository.GroceryRepository;
 import com.bizzjen.cipes.repository.RecipeRepository;
+import org.modelmapper.AbstractConverter;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -37,12 +40,47 @@ public class RecipeService {
 
     public List<RecipeResponseDto> getRecipes() {
         List<Recipe> recipeList = this.recipeRepository.findAll();
-        return recipeList.stream().map(recipe -> this.modelMapper.map(recipe, RecipeResponseDto.class))
+        return getRecipeResponseList(recipeList);
+    }
+
+    public void deleteRecipeById(long id) {
+        this.recipeRepository.deleteById(id);
+    }
+
+    public Recipe getRecipeEntityById(long id) {
+        return recipeRepository.findById(id).orElseThrow(() -> new CipesClassNotFoundException("Recipe not found!"));
+    }
+    public void publishRecipe(long id) {
+        Recipe recipe = getRecipeEntityById(id);
+        recipe.setPublished(1);
+        recipeRepository.save(recipe);
+    }
+
+    public List<RecipeResponseDto> getPublishedRecipeList() {
+        List<Recipe> publishedRecipeList = recipeRepository.findByPublished(1);
+        return getRecipeResponseList(publishedRecipeList);
+    }
+
+
+
+    private static List<RecipeResponseDto> getRecipeResponseList(List<Recipe> recipeList) {
+        ModelMapper mapper = new ModelMapper();
+        Converter<Integer, Boolean> statusConverter = new AbstractConverter<Integer, Boolean>() {
+            @Override
+            protected Boolean convert(Integer source) {
+                return (source != null && source == 1) ? Boolean.TRUE : Boolean.FALSE;
+            }
+        };
+        mapper.addConverter(statusConverter);
+        mapper.typeMap(Recipe.class, RecipeResponseDto.class)
+                .addMapping(Recipe::getPublished, RecipeResponseDto::setPublished);
+
+        return recipeList.stream().map(recipe -> mapper.map(recipe, RecipeResponseDto.class))
                 .collect(Collectors.toList());
     }
 
-    public void deleteRecipeById(long id){
-        this.recipeRepository.deleteById(id);
+    public void buyRecipe(long recipeId) {
+        // TODO: 13/05/2024 pass it to another Microservice 
     }
 }
 
