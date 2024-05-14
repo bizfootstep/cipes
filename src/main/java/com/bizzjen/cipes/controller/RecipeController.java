@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.management.ManagementFactory;
 import java.util.List;
 
 @RestController
@@ -49,5 +50,13 @@ public class RecipeController {
     public ResponseEntity<ResponseDetail> getPublishedRecipes() {
         List<RecipeResponseDto> recipes = this.recipeService.getPublishedRecipeList();
         return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.name(), HttpStatus.OK, recipes);
+    }
+
+
+    @PostMapping("/buyRecipe/{recipeId}")
+    public ResponseEntity<ResponseDetail> buyRecipe(@PathVariable long recipeId){
+//        Object object = recipeService.buyRecipe(recipeId);
+        Object object = recipeService.buyRecipe(String.valueOf(recipeId));
+        return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.name(), HttpStatus.OK, object);
     }
 }

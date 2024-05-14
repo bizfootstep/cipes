@@ -10,7 +10,12 @@ import com.bizzjen.cipes.repository.RecipeRepository;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +27,8 @@ public class RecipeService {
     private final GroceryRepository groceryRepository;
     private final ModelMapper modelMapper;
 
+    @Autowired
+    private RestTemplate restTemplate;
     public RecipeService(RecipeRepository recipeRepository, GroceryRepository groceryRepository, ModelMapper modelMapper) {
         this.recipeRepository = recipeRepository;
         this.groceryRepository = groceryRepository;
@@ -79,8 +86,32 @@ public class RecipeService {
                 .collect(Collectors.toList());
     }
 
-    public void buyRecipe(long recipeId) {
-        // TODO: 13/05/2024 pass it to another Microservice 
+//    public Object buyRecipe(long recipeId) {
+//        // URL of the payment service endpoint
+//        String paymentServiceUrl = "http://localhost:8081/buyRecipe";
+////        String paymentServiceUrl = "http://CIPES-PAYMENT-SERVICE/buyRecipe";
+//
+//        // Create a request entity with the recipeId
+//        HttpEntity<Long> requestEntity = new HttpEntity<>(recipeId);
+//
+//        // Make an HTTP POST request to the payment service
+//        ResponseEntity<Object> responseEntity = restTemplate.exchange(
+//                paymentServiceUrl,
+//                HttpMethod.POST,
+//                requestEntity,
+//                Object.class);
+//
+//        // Check the response and handle accordingly
+//        if (responseEntity.getStatusCode().is2xxSuccessful()) {
+//            // Payment successful
+//            System.out.println("Recipe purchased successfully.");
+//            return responseEntity.getBody();
+//        }
+//        return null;
+//    }
+
+    public String buyRecipe(String orderId){
+        return restTemplate.getForObject("http://CIPES-PAYMENT-SERVICE/payment/order/status/" + orderId, String.class);
     }
 }
 
