@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/grocery")
 public class GroceryController {
 
     private static final Logger logger = LoggerFactory.getLogger(GroceryController.class);
@@ -25,20 +26,20 @@ public class GroceryController {
         this.groceryService = groceryService;
     }
 
-    @GetMapping("/grocery/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ResponseDetail> getGroceryById(@PathVariable long id) {
         GroceryResponseDto grocery = this.groceryService.getGroceryById(id);
         return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.name(), HttpStatus.OK, grocery);
     }
 
-    @GetMapping("/groceries")
+    @GetMapping("/all")
     public ResponseEntity<ResponseDetail> getGroceries() {
         logger.info("Get All of the Groceries information!");
         List<GroceryResponseDto> groceryList = this.groceryService.getAllGrocery();
         return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.name(), HttpStatus.OK, groceryList);
     }
 
-    @PostMapping("/grocery")
+    @PostMapping
     public ResponseEntity<ResponseDetail> createGrocery(@RequestBody GroceryRequestDto requestDto) {
         GroceryResponseDto grocery = this.groceryService.createGrocery(requestDto);
         return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.name(), HttpStatus.OK, grocery);
@@ -50,7 +51,7 @@ public class GroceryController {
                 HttpStatus.OK, this.groceryService.getGroceryCategoryById(id));
     }
 
-    @GetMapping("/categories")
+    @GetMapping("/category/all")
     public ResponseEntity<ResponseDetail> getCategories() {
         return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.name(),
                 HttpStatus.OK, this.groceryService.getAllGroceryCategory());
@@ -62,7 +63,7 @@ public class GroceryController {
                 HttpStatus.OK, this.groceryService.createGroceryCategory(categoryRequestDto));
     }
 
-    @DeleteMapping("/categories")
+    @DeleteMapping("/category/all")
     public ResponseEntity<ResponseDetail> deleteAllCategories() {
         this.groceryService.deleteAllGrocery();
         return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.getDescription(),
@@ -71,7 +72,7 @@ public class GroceryController {
         );
     }
 
-    @DeleteMapping("/grocery/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDetail> deleteGroceryById(@PathVariable int id){
         this.groceryService.deleteGroceryById(id);
         return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.getDescription(),HttpStatus.OK, null);
