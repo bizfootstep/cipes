@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 //@AllArgsConstructor
 public class KitchenType {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long kitchenId;
     @Column(name = "kitchenType")
     private String kitchenTypeName;

@@ -13,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class Grocery {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long groceryId;
     private String groceryName;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)

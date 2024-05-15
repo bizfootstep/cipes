@@ -10,6 +10,7 @@ import com.bizzjen.cipes.exception.CipesClassNotFoundException;
 import com.bizzjen.cipes.exception.ExceptionMessage;
 import com.bizzjen.cipes.repository.GroceryCategoryRepository;
 import com.bizzjen.cipes.repository.GroceryRepository;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,20 +22,15 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class GroceryService {
     private final GroceryRepository groceryRepository;
     private final GroceryCategoryRepository groceryCategoryRepository;
     private final ModelMapper mapper;
 
-    public GroceryService(GroceryRepository groceryRepository, GroceryCategoryRepository groceryCategoryRepository, ModelMapper mapper) {
-        this.groceryRepository = groceryRepository;
-        this.groceryCategoryRepository = groceryCategoryRepository;
-        this.mapper = mapper;
-    }
-
     public GroceryCategoryResponseDto createGroceryCategory(GroceryCategoryRequestDto requestDto) {
         Optional<GroceryCategory> categoryName = groceryCategoryRepository.findByCategoryName(requestDto.getCategoryName());
-        if(categoryName.isPresent()){
+        if (categoryName.isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, ExceptionMessage.DUPLICATE_FOUND.getDescription());
         }
         GroceryCategory groceryCategory = this.mapper.map(requestDto, GroceryCategory.class);
@@ -74,7 +70,7 @@ public class GroceryService {
                 .collect(Collectors.toList());
     }
 
-    public void deleteAllGrocery(){
+    public void deleteAllGrocery() {
         this.groceryRepository.deleteAll();
     }
 
@@ -84,11 +80,11 @@ public class GroceryService {
                 .collect(Collectors.toList());
     }
 
-    public void deleteGroceryById(long id){
+    public void deleteGroceryById(long id) {
         this.groceryRepository.deleteById(id);
     }
 
-    public void deleteCategoryById(int id){
+    public void deleteCategoryById(int id) {
         this.groceryCategoryRepository.deleteById(BigInteger.valueOf(id));
     }
 }

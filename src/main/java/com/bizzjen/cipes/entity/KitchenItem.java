@@ -7,7 +7,7 @@ import lombok.Data;
 @Entity
 public class KitchenItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long kitchenItemId;
     @Column(name = "name")
     private String kitchenName;

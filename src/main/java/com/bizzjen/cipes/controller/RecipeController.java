@@ -7,6 +7,7 @@ import com.bizzjen.cipes.response.ResponseHandler;
 import com.bizzjen.cipes.response.ResponseMessage;
 import com.bizzjen.cipes.service.RecipeService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,8 @@ public class RecipeController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<ResponseDetail> getAllRecipes() {
-        List<RecipeResponseDto> recipes = this.recipeService.getRecipes();
+    public ResponseEntity<ResponseDetail> getAllRecipes(Pageable pageable) {
+        List<RecipeResponseDto> recipes = this.recipeService.getRecipes(pageable);
         return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.name(), HttpStatus.OK, recipes);
     }
 
@@ -41,7 +42,7 @@ public class RecipeController {
         return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.getDescription(), HttpStatus.OK, null);
     }
 
-    @PutMapping("/{id}/publish")
+    @PutMapping("/publish/{id}")
     public ResponseEntity<ResponseDetail> publishRecipeById(@PathVariable long id) {
         this.recipeService.publishRecipe(id);
         return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.getDescription(), HttpStatus.OK, null);

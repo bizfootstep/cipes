@@ -11,6 +11,9 @@ import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +29,9 @@ public class RecipeService {
     private final RecipeRepository recipeRepository;
     private final GroceryRepository groceryRepository;
     private final ModelMapper modelMapper;
+
+    @Value("${payment.service.url}")
+    private String paymentServiceUrl;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -45,9 +51,10 @@ public class RecipeService {
         return this.modelMapper.map(savedRecipe, RecipeResponseDto.class);
     }
 
-    public List<RecipeResponseDto> getRecipes() {
-        List<Recipe> recipeList = this.recipeRepository.findAll();
-        return getRecipeResponseList(recipeList);
+    public List<RecipeResponseDto> getRecipes(Pageable pageable) {
+//        List<Recipe> recipeList = this.recipeRepository.findAll();
+        Page<Recipe> pageRecipeList = this.recipeRepository.findAll(pageable);
+        return getRecipeResponseList(pageRecipeList.getContent());
     }
 
     public void deleteRecipeById(long id) {
@@ -111,7 +118,7 @@ public class RecipeService {
 //    }
 
     public String buyRecipe(String orderId){
-        return restTemplate.getForObject("http://CIPES-PAYMENT-SERVICE/payment/order/status/" + orderId, String.class);
+        return restTemplate.getForObject(paymentServiceUrl + "/payment/order/status/" + orderId, String.class);
     }
 }
 

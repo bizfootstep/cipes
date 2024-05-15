@@ -1,5 +1,6 @@
 package com.bizzjen.cipes.dto;
 
+import com.bizzjen.cipes.entity.Grocery;
 import com.bizzjen.cipes.entity.GroceryCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;

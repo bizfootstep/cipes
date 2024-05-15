@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class Recipe {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long recipeId;
     private String recipeType;
     private String steps;
