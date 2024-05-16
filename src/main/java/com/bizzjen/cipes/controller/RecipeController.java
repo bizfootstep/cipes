@@ -51,7 +51,7 @@ public class RecipeController {
     @GetMapping("/all/published")
     public ResponseEntity<ResponseDetail> getPublishedRecipes() {
         List<RecipeResponseDto> recipes = this.recipeService.getPublishedRecipeList();
-        return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.name(), HttpStatus.OK, recipes);
+        return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.getDescription(), HttpStatus.OK, recipes);
     }
 
 
@@ -59,6 +59,12 @@ public class RecipeController {
     public ResponseEntity<ResponseDetail> buyRecipe(@PathVariable long recipeId){
 //        Object object = recipeService.buyRecipe(recipeId);
         Object object = recipeService.buyRecipe(String.valueOf(recipeId));
-        return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.name(), HttpStatus.OK, object);
+        return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.getDescription(), HttpStatus.OK, object);
+    }
+
+    @PostMapping("/publish/all")
+    public ResponseEntity<ResponseDetail> publishAllRecipes(){
+        recipeService.publishAllRecipe();
+        return ResponseHandler.responseBuilder(ResponseMessage.REQUEST_SUCCESSFUL.getDescription(),HttpStatus.OK,null);
     }
 }

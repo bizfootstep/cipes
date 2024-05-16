@@ -22,6 +22,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,6 +37,8 @@ public class RecipeService {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    private final ExecutorService executor = Executors.newFixedThreadPool(10);
     public RecipeService(RecipeRepository recipeRepository, GroceryRepository groceryRepository, ModelMapper modelMapper) {
         this.recipeRepository = recipeRepository;
         this.groceryRepository = groceryRepository;
@@ -119,6 +123,15 @@ public class RecipeService {
 
     public String buyRecipe(String orderId){
         return restTemplate.getForObject(paymentServiceUrl + "/payment/order/status/" + orderId, String.class);
+    }
+
+    public void publishAllRecipe() {
+        List<Recipe> recipes = recipeRepository.findAll();
+        executor.submit(() -> {
+            for (Recipe recipe : recipes) {
+                recipe.setPublished(1);
+            }
+        });
     }
 }
 
